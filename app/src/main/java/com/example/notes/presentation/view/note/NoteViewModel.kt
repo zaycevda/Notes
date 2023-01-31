@@ -22,17 +22,19 @@ class NoteViewModel(
     private val _note = MutableLiveData<NoteParam>()
     val note: LiveData<NoteParam> = _note
 
-    private val currentDate: String by lazy {
+    val currentDate: String by lazy {
         getDate()
     }
 
     fun get(noteId: Int) {
         val currentNote = getCurrentNoteUseCase.execute(noteId)
-        _note.value = NoteParam(
-            title = currentNote!!.title,
-            description = currentNote.description,
-            date = currentNote.date
-        )
+        if (currentNote != null) {
+            _note.value = NoteParam(
+                title = currentNote.title,
+                description = currentNote.description,
+                date = currentNote.date
+            )
+        }
     }
 
     fun update(title: String, description: String, noteId: Int) {

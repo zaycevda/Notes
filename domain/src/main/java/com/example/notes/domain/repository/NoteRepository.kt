@@ -8,9 +8,9 @@ interface NoteRepository {
 
     fun getCurrentNote(noteId: Int): NoteParam?
 
-    fun saveNote(param: NoteParam, date: String?)
+    fun saveNote(param: NoteParam, date: String)
 
     fun deleteNote(noteId: Int)
 
-    fun updateNote(param: NoteParam, date: String?, noteId: Int)
+    fun updateNote(param: NoteParam, date: String, noteId: Int)
 }

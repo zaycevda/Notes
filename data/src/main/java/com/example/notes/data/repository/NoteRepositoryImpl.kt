@@ -26,7 +26,7 @@ class NoteRepositoryImpl(private val context: Context?) : NoteRepository, Corout
         }
     }
 
-    override fun saveNote(param: NoteParam, date: String?) {
+    override fun saveNote(param: NoteParam, date: String) {
         launch {
             context?.let {
                 AppDatabase.getDatabase(it).noteDao().addNote(toNote(param = param, date = date))
@@ -42,7 +42,7 @@ class NoteRepositoryImpl(private val context: Context?) : NoteRepository, Corout
         }
     }
 
-    override fun updateNote(param: NoteParam, date: String?, noteId: Int) {
+    override fun updateNote(param: NoteParam, date: String, noteId: Int) {
         launch {
             context?.let {
                 AppDatabase.getDatabase(it).noteDao()
@@ -51,9 +51,8 @@ class NoteRepositoryImpl(private val context: Context?) : NoteRepository, Corout
         }
     }
 
-    private fun toNote(param: NoteParam, date: String?, noteId: Int = 0) =
+    private fun toNote(param: NoteParam, date: String, noteId: Int = 0) =
         Note(title = param.title, description = param.description, date = date, id = noteId)
-
 
     private fun toNoteParam(note: Note) =
         NoteParam(title = note.title, description = note.description, id = note.id, date = note.date)

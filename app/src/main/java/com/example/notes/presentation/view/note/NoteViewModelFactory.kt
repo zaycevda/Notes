@@ -21,5 +21,4 @@ class NoteViewModelFactory(
             updateNoteUseCase,
             deleteNoteUseCase
         ) as T
-
 }

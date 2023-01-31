@@ -26,7 +26,6 @@ class HomeFragment : Fragment() {
 
     @Inject
     lateinit var homeViewModelFactory: HomeViewModelFactory
-
     private lateinit var binding: FragmentHomeBinding
     private var notesArr = ArrayList<NoteParam>()
     private val onClicked = object : NotesAdapter.OnItemClickListener {
@@ -100,5 +99,4 @@ class HomeFragment : Fragment() {
         }
         return binding.root
     }
-
 }

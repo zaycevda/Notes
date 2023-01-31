@@ -8,7 +8,6 @@ import com.example.notes.domain.usecase.GetAllNotesUseCase
 class HomeViewModelFactory(private val getAllNotesUseCase: GetAllNotesUseCase) :
     ViewModelProvider.Factory {
 
-    override fun <T : ViewModel> create(modelClass: Class<T>, extras: CreationExtras): T {
-        return HomeViewModel(getAllNotesUseCase) as T
-    }
+    override fun <T : ViewModel> create(modelClass: Class<T>, extras: CreationExtras) =
+        HomeViewModel(getAllNotesUseCase) as T
 }

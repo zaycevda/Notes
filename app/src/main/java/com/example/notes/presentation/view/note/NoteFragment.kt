@@ -1,6 +1,5 @@
 package com.example.notes.presentation.view.note
 
-import android.annotation.SuppressLint
 import android.app.Dialog
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -16,8 +15,6 @@ import com.example.notes.R
 import com.example.notes.app.App
 import com.example.notes.databinding.FragmentNoteBinding
 import com.example.notes.utils.DEFAULT_NOTE_ID
-import java.text.SimpleDateFormat
-import java.util.*
 import javax.inject.Inject
 
 class NoteFragment : Fragment() {
@@ -25,9 +22,6 @@ class NoteFragment : Fragment() {
     @Inject
     lateinit var noteViewModelFactory: NoteViewModelFactory
     private lateinit var binding: FragmentNoteBinding
-    private val currentDate: String by lazy {
-        getDate()
-    }
     private val viewModel by lazy {
         ViewModelProvider(this, noteViewModelFactory)[NoteViewModel::class.java]
     }
@@ -37,23 +31,18 @@ class NoteFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
         (activity?.applicationContext as App).appComponent.injectNoteFragment(this)
-
         binding = FragmentNoteBinding.inflate(inflater, container, false)
         val noteId = requireArguments().getInt(NOTE_ID)
         binding.apply {
-
             deleteNoteButton.setOnClickListener {
                 alertDialog(noteId = noteId)
             }
-
             backButton.setOnClickListener {
                 findNavController().popBackStack()
             }
 
             if (noteId != DEFAULT_NOTE_ID) {
-
                 viewModel.note.observe(viewLifecycleOwner) {
                     titleEditText.setText(it.title)
                     descriptionEditText.setText(it.description)
@@ -62,22 +51,19 @@ class NoteFragment : Fragment() {
                 viewModel.get(noteId)
 
                 deleteNoteButton.visibility = View.VISIBLE
-
                 confirmButton.setOnClickListener {
-
-                    if (titleEditText.text.toString().isEmpty()) {
+                    if (titleEditText.text.toString().isEmpty())
                         Toast.makeText(
                             context,
                             "Поле \"Название\" обязательно для заполнения",
                             Toast.LENGTH_SHORT
                         ).show()
-                    } else if (
+                    else if (
                         viewModel.note.value?.title == titleEditText.text.toString()
-                        && viewModel.note.value?.description == descriptionEditText.text.toString()
-                    ) {
+                        && viewModel.note.value?.description == descriptionEditText.text.toString())
                         findNavController().popBackStack()
-                    } else {
-                        dateText.text = currentDate
+                    else {
+                        dateText.text = viewModel.currentDate
                         viewModel.update(
                             title = titleEditText.text.toString(),
                             description = descriptionEditText.text.toString(),
@@ -86,20 +72,17 @@ class NoteFragment : Fragment() {
                         findNavController().popBackStack()
                     }
                 }
-
             } else {
-
-                dateText.text = currentDate
+                dateText.text = viewModel.currentDate
                 descriptionEditText.setText("")
-
                 confirmButton.setOnClickListener {
-                    if (titleEditText.text.toString().isEmpty()) {
+                    if (titleEditText.text.toString().isEmpty())
                         Toast.makeText(
                             context,
                             "Поле \"Название\" обязательно для заполнения",
                             Toast.LENGTH_SHORT
                         ).show()
-                    } else {
+                    else {
                         viewModel.save(
                             title = titleEditText.text.toString(),
                             description = descriptionEditText.text.toString()
@@ -110,14 +93,6 @@ class NoteFragment : Fragment() {
             }
         }
         return binding.root
-    }
-
-
-    @SuppressLint("SimpleDateFormat")
-    private fun getDate(): String {
-        val spf = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
-        spf.timeZone = TimeZone.getDefault()
-        return spf.format(Date())
     }
 
     private fun alertDialog(noteId: Int) {
