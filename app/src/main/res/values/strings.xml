@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">Notes</string>
+    <!--Description-->
+    <string name="back">come back to home fragment</string>
+    <string name="save">save</string>
+    <string name="add">add</string>
+    <string name="delete">delete</string>
+    <!--UI-->
+    <string name="description">Описание</string>
+    <string name="title">Название(обязательно)</string>
+    <string name="delete_note">Удалить заметку?</string>
+    <string name="it_will_be_impossible_to_cancel_this_action">Отменить это действие будет невозможно</string>
+    <string name="no">Нет</string>
+    <string name="yes">Да</string>
+</resources>
