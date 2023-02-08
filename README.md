@@ -1,5 +1,5 @@
 # Notes
-Notes app using Coroutines, Room, MVVM, Dagger
+Notes app using RxJava, Room, MVVM, Dagger
 
 Home fragment
 
