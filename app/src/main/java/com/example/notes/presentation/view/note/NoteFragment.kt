@@ -21,7 +21,7 @@ class NoteFragment : Fragment() {
 
     @Inject
     lateinit var noteViewModelFactory: NoteViewModelFactory
-    private lateinit var binding: FragmentNoteBinding
+    private var binding: FragmentNoteBinding? = null
     private val viewModel by lazy {
         ViewModelProvider(this, noteViewModelFactory)[NoteViewModel::class.java]
     }
@@ -34,7 +34,7 @@ class NoteFragment : Fragment() {
         (activity?.applicationContext as App).appComponent.injectNoteFragment(this)
         binding = FragmentNoteBinding.inflate(inflater, container, false)
         val noteId = requireArguments().getInt(NOTE_ID)
-        binding.apply {
+        binding?.apply {
             deleteNoteButton.setOnClickListener {
                 alertDialog(noteId = noteId)
             }
@@ -92,7 +92,12 @@ class NoteFragment : Fragment() {
                 }
             }
         }
-        return binding.root
+        return binding!!.root
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        binding = null
     }
 
     private fun alertDialog(noteId: Int) {

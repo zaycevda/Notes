@@ -5,7 +5,6 @@ import com.example.notes.domain.repository.NoteRepository
 
 class SaveNoteUseCase(private val noteRepository: NoteRepository) {
 
-    fun execute(param: NoteParam, date: String) {
+    fun execute(param: NoteParam, date: String) =
         noteRepository.saveNote(param = param, date = date)
-    }
 }

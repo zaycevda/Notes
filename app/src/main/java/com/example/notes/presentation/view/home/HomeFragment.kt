@@ -26,7 +26,7 @@ class HomeFragment : Fragment() {
 
     @Inject
     lateinit var homeViewModelFactory: HomeViewModelFactory
-    private lateinit var binding: FragmentHomeBinding
+    private var binding: FragmentHomeBinding? = null
     private var notesArr = ArrayList<NoteParam>()
     private val onClicked = object : NotesAdapter.OnItemClickListener {
         override fun onClicked(noteId: Int) {
@@ -49,11 +49,10 @@ class HomeFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
         (activity?.applicationContext as App).appComponent.injectHomeFragment(this)
 
         binding = FragmentHomeBinding.inflate(inflater, container, false)
-        binding.apply {
+        binding?.apply {
             recyclerView.layoutManager =
                 StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
             recyclerView.setHasFixedSize(true)
@@ -78,12 +77,11 @@ class HomeFragment : Fragment() {
 
                 @SuppressLint("NotifyDataSetChanged")
                 override fun onQueryTextChange(newText: String?): Boolean {
-
                     val tempArr = ArrayList<NoteParam>()
 
                     for (arr in notesArr) {
-                        if (arr.description?.lowercase(Locale.getDefault())
-                                ?.contains(newText.toString()) == true
+                        if (arr.description.lowercase(Locale.getDefault())
+                                .contains(newText.toString())
                         )
                             tempArr.add(arr)
                         else if (arr.title.lowercase(Locale.getDefault())
@@ -97,6 +95,11 @@ class HomeFragment : Fragment() {
                 }
             })
         }
-        return binding.root
+        return binding!!.root
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        binding = null
     }
 }

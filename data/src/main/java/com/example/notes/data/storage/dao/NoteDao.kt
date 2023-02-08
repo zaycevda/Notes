@@ -7,17 +7,17 @@ import com.example.notes.data.storage.entity.Note
 interface NoteDao {
 
     @Query("SELECT * FROM notes ORDER BY id DESC")
-    suspend fun getAllNotes(): List<Note>
+    fun getAllNotes(): List<Note>
 
     @Query("SELECT * FROM notes WHERE id = :id")
-    suspend fun getCurrentNote(id: Int): Note
+    fun getCurrentNote(id: Int): Note
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun addNote(note: Note)
-
-    @Query("DELETE FROM notes WHERE id = :id")
-    suspend fun deleteNote(id: Int)
+    fun addNote(note: Note)
 
     @Update
-    suspend fun updateNote(note: Note)
+    fun updateNote(note: Note)
+
+    @Query("DELETE FROM notes WHERE id = :id")
+    fun deleteNote(id: Int)
 }
